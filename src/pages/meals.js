@@ -1,8 +1,11 @@
+import { useEffect, useState, useRef } from 'react';
+
 import {
   Box,
   Container,
   Heading,
   Table,
+  TableContainer,
   Thead,
   Tbody,
   Tr,
@@ -21,30 +24,65 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { MdDelete } from 'react-icons/md';
-import { useMeals } from '../context/MealContext';
-import { useState, useRef } from 'react';
+import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
+import { useMealList } from '@/context/MealListContext';
+import { foodKeyToHumanReadableStr } from '@/constants/foods';
+import { formatTimestamp } from "@/utils";
+
+
+
+const formatNumber = (num) => {
+  return Number(num).toFixed(2);
+};
 
 export default function Meals() {
-  const { meals, deleteMeal, getDailyTotals } = useMeals();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [mealToDelete, setMealToDelete] = useState(null);
   const cancelRef = useRef();
 
-  const formatNumber = (num) => {
-    return Number(num).toFixed(2);
+  //=====================
+  //  STATE
+  //=====================
+  const { mealList, dispatchMealList, } = useMealList();
+  const handleDuplicateClick = (id) => {
+    dispatchMealList({ type: 'duplicate', id });
   };
 
-  const handleDeleteClick = (index) => {
-    setMealToDelete(index);
+  const [mealIdToDelete, setMealIdToDelete] = useState(null);
+  const handleDeleteClick = (id) => {
+    setMealIdToDelete(id);
     onOpen();
   };
-
   const handleDeleteConfirm = () => {
-    deleteMeal(mealToDelete);
+    dispatchMealList({
+      'type': 'delete',
+      id: mealIdToDelete,
+    });
+    setMealIdToDelete(null);
     onClose();
   };
 
-  const dailyTotals = getDailyTotals();
+  const defaultDailyTotals = { calories: 0, fat: 0, cholesterol: 0, sodium: 0, sugar: 0 };
+  const [dailyTotals, setDailyTotals] = useState(defaultDailyTotals);
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const todayMeals = mealList.filter(meal => {
+      const mealDate = typeof meal.timestamp === 'string' 
+        ? meal.timestamp.split('T')[0]
+        : meal.timestamp.toISOString().split('T')[0];
+      return mealDate === today;
+    });
+
+    setDailyTotals(
+      todayMeals.reduce((acc, meal) => {
+        acc.calories += meal.calories;
+        acc.fat += meal.fat;
+        acc.cholesterol += meal.cholesterol;
+        acc.sodium += meal.sodium;
+        acc.sugar += meal.sugar;
+        return acc;
+      }, defaultDailyTotals)
+    )
+  }, [])
 
   return (
     <Container maxW="container.md" py={8}>
@@ -87,54 +125,54 @@ export default function Meals() {
 
         <Box>
           <Heading size="md" mb={4}>All Meals</Heading>
-          {meals.length === 0 ? (
+          {mealList.length === 0 ? (
             <Text>No meals recorded yet.</Text>
           ) : (
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Time</Th>
-                  <Th>Foods</Th>
-                  <Th isNumeric>Calories</Th>
-                  <Th isNumeric>Fat (g)</Th>
-                  <Th isNumeric>Cholesterol (mg)</Th>
-                  <Th isNumeric>Sodium (mg)</Th>
-                  <Th isNumeric>Sugar (g)</Th>
-                  <Th>Actions</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {meals.map((meal, index) => {
-                  const mealTotals = meal.foods.reduce((acc, food) => ({
-                    calories: acc.calories + food.calories,
-                    fat: acc.fat + food.fat,
-                    cholesterol: acc.cholesterol + food.cholesterol,
-                    sodium: acc.sodium + food.sodium,
-                    sugar: acc.sugar + food.sugar,
-                  }), { calories: 0, fat: 0, cholesterol: 0, sodium: 0, sugar: 0 });
-
-                  return (
+            <TableContainer>
+              <Table variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th>Time</Th>
+                    <Th>Foods</Th>
+                    <Th isNumeric>Calories</Th>
+                    <Th isNumeric>Fat (g)</Th>
+                    <Th isNumeric>Cholesterol (mg)</Th>
+                    <Th isNumeric>Sodium (mg)</Th>
+                    <Th isNumeric>Sugar (g)</Th>
+                    <Th>Actions</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {mealList.map((meal, index) => (
                     <Tr key={index}>
-                      <Td>{new Date(meal.timestamp).toLocaleString()}</Td>
-                      <Td>{meal.foods.map(f => f.name).join(', ')}</Td>
-                      <Td isNumeric>{formatNumber(mealTotals.calories)}</Td>
-                      <Td isNumeric>{formatNumber(mealTotals.fat)}</Td>
-                      <Td isNumeric>{formatNumber(mealTotals.cholesterol)}</Td>
-                      <Td isNumeric>{formatNumber(mealTotals.sodium)}</Td>
-                      <Td isNumeric>{formatNumber(mealTotals.sugar)}</Td>
+                      <Td style={{ whiteSpace: "nowrap" }}>{formatTimestamp(meal.timestamp)}</Td>
+                      <Td>{Object.keys(meal.foodAmountObj).map((foodKey) => foodKeyToHumanReadableStr(foodKey)).join(', ')}</Td>
+                      <Td isNumeric>{formatNumber(meal.calories)}</Td>
+                      <Td isNumeric>{formatNumber(meal.fat)}</Td>
+                      <Td isNumeric>{formatNumber(meal.cholesterol)}</Td>
+                      <Td isNumeric>{formatNumber(meal.sodium)}</Td>
+                      <Td isNumeric>{formatNumber(meal.sugar)}</Td>
                       <Td>
-                        <IconButton
-                          icon={<MdDelete />}
-                          size="sm"
-                          colorScheme="red"
-                          onClick={() => handleDeleteClick(index)}
-                        />
+                        <Box display="flex">
+                          <IconButton
+                            icon={<MdDelete />}
+                            size="sm"
+                            colorScheme="red"
+                            onClick={() => handleDeleteClick(meal.id)}
+                          />
+                          <IconButton
+                            icon={<HiOutlineDocumentDuplicate />}
+                            size="sm"
+                            colorScheme="blue"
+                            onClick={() => handleDuplicateClick(meal.id)}
+                          />
+                        </Box>
                       </Td>
                     </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           )}
         </Box>
 

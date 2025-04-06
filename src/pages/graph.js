@@ -7,7 +7,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useMeals } from '@/context/MealContext';
+import { useMealList } from '@/context/MealListContext';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,17 +31,14 @@ ChartJS.register(
 );
 
 export default function Graph() {
-  const { meals } = useMeals();
-  const [dailyData, setDailyData] = useState([]);
-
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.800', 'white');
-
+  const { mealList } = useMealList();
+  
+  const [dailyGroupedData, setDailyGroupedData] = useState([]);
   useEffect(() => {
     // Group meals by date and calculate totals
-    const groupedMeals = meals.reduce((acc, meal) => {
+    const groupedMeals = mealList.reduce((acc, meal) => {
       const date = new Date(meal.timestamp).toLocaleDateString();
-      if (!acc[date]) {
+      if (!(date in acc)) {
         acc[date] = {
           calories: 0,
           fat: 0,
@@ -50,13 +47,11 @@ export default function Graph() {
           sugar: 0,
         };
       }
-      meal.foods.forEach(food => {
-        acc[date].calories += food.calories;
-        acc[date].fat += food.fat;
-        acc[date].cholesterol += food.cholesterol;
-        acc[date].sodium += food.sodium;
-        acc[date].sugar += food.sugar;
-      });
+      acc[date].calories += meal.calories;
+      acc[date].fat += meal.fat;
+      acc[date].cholesterol += meal.cholesterol;
+      acc[date].sodium += meal.sodium;
+      acc[date].sugar += meal.sugar;
       return acc;
     }, {});
 
@@ -68,54 +63,43 @@ export default function Graph() {
       }))
       .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    setDailyData(sortedData);
-  }, [meals]);
-
-  const getNutrientLabel = (nutrient) => {
-    const labels = {
-      calories: 'Calories',
-      fat: 'Fat (g)',
-      cholesterol: 'Cholesterol (mg)',
-      sodium: 'Sodium (mg)',
-      sugar: 'Sugar (g)',
-    };
-    return labels[nutrient] || nutrient;
-  };
+      setDailyGroupedData(sortedData);
+  }, [])
 
   const data = {
-    labels: dailyData.map(d => d.date),
+    labels: dailyGroupedData.map(d => d.date),
     datasets: [
       {
         label: 'Calories',
-        data: dailyData.map(d => d.calories),
+        data: dailyGroupedData.map(d => d.calories),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         yAxisID: 'y',
       },
       {
         label: 'Fat (g)',
-        data: dailyData.map(d => d.fat),
+        data: dailyGroupedData.map(d => d.fat),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
         yAxisID: 'y1',
       },
       {
         label: 'Cholesterol (mg)',
-        data: dailyData.map(d => d.cholesterol),
+        data: dailyGroupedData.map(d => d.cholesterol),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         yAxisID: 'y1',
       },
       {
         label: 'Sodium (mg)',
-        data: dailyData.map(d => d.sodium),
+        data: dailyGroupedData.map(d => d.sodium),
         borderColor: 'rgb(153, 102, 255)',
         backgroundColor: 'rgba(153, 102, 255, 0.5)',
         yAxisID: 'y1',
       },
       {
         label: 'Sugar (g)',
-        data: dailyData.map(d => d.sugar),
+        data: dailyGroupedData.map(d => d.sugar),
         borderColor: 'rgb(255, 159, 64)',
         backgroundColor: 'rgba(255, 159, 64, 0.5)',
         yAxisID: 'y1',
@@ -170,10 +154,10 @@ export default function Graph() {
         <Heading>Nutrition Trends</Heading>
 
         <Box flex={1} minH="0">
-          {dailyData.length === 0 ? (
+          {dailyGroupedData.length === 0 ? (
             <Text>No data available yet.</Text>
           ) : (
-            <Box bg={bgColor} p={4} borderRadius="lg" boxShadow="md" h="100%">
+            <Box p={4} borderRadius="lg" boxShadow="md" h="100%">
               <Line options={options} data={data} />
             </Box>
           )}

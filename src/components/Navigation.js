@@ -7,7 +7,6 @@ export default function Navigation() {
   const activeColor = useColorModeValue('blue.500', 'blue.200');
 
   const links = [
-    { href: '/foods', label: 'Nutrition Info' },
     { href: '/', label: 'Track Meal' },
     { href: '/meals', label: 'Meal History' },
     { href: '/graph', label: 'Graph' },

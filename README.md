@@ -1,5 +1,18 @@
 # Diet Tracker PWA
+Built a Diet Tracker PWA for a simple way to track calories, protein, sodium, and sugar.
 
+App Setup (works for any PWA)
+- open website at [diet-tracker-pwa.vercel.app](https://diet-tracker-pwa.vercel.app)
+- click top-right three vertical dots
+- click "Add to Home Screen"
+
+App Usage
+- "Track Meal"
+  - weigh your food IRL
+  - click weight amounts per food
+  - click "Save Meal"
+- "Meal History"
+- "Graph"
 
 ## Troubleshooting
 - Error: `SyntaxError: The requested module '@chakra-ui/react' does not provide an export named 'forwardRef'`
