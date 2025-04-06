@@ -36,7 +36,7 @@ import { mergeObj } from '@/utils';
 
 export default function Home() {
   const toast = useToast();
-  
+
   const [highlighted, setHighlighted] = useState({});
 
   //=====================
@@ -46,13 +46,13 @@ export default function Home() {
   // MEAL - multiple foods with aggregated nutrition information
   const { dispatchMealList } = useMealList();
   const [foodUnitIncrementMap, setFoodUnitIncrementMap] = useFoodUnitIncrementMap();
-  
+
   // foodAmountObj - foodKey to amount of food in grams
   const [foodAmountObj, setFoodAmountObj] = useState({});
   const isFoodAmountObjEmpty = Object.keys(foodAmountObj).length === 0
   const handleFoodAmountChange = (foodKey, amount) => {
     // CSS background
-    setHighlighted({ [foodKey]: amount   > 0 ? 'green.100' : 'red.100' });
+    setHighlighted({ [foodKey]: amount > 0 ? 'green.100' : 'red.100' });
     setTimeout(() => setHighlighted({}), 300);
 
     // foodKey is unique food name string
@@ -73,7 +73,7 @@ export default function Home() {
       return rest;
     });
   };
-  
+
   function reset() {
     setFoodAmountObj({});
   }
@@ -106,9 +106,9 @@ export default function Home() {
         return mergeObj(acc, currFoodNutrition);
       }, {}
     )
-    console.log('create_meal', { type: 'create', foodList: Object.keys(foodAmountObj), ...newMeal})
-    dispatchMealList({ type: 'create', foodAmountObj, ...newMeal});
-    
+    console.log('create_meal', { type: 'create', foodList: Object.keys(foodAmountObj), ...newMeal })
+    dispatchMealList({ type: 'create', foodAmountObj, ...newMeal });
+
     toast({
       title: 'Success',
       description: 'Meal saved successfully',
@@ -142,7 +142,17 @@ export default function Home() {
                         size="sm"
                         onClick={(e) => { handleFoodAmountChange(foodKey, -foodUnitIncrementMap[foodKey]); }}
                       />
-                      <NumberInput value={foodAmountObj[foodKey] ?? 0} size="sm" w="80px">
+                      <NumberInput
+                        value={foodAmountObj[foodKey] ?? 0}
+                        onChange={(valueString) =>
+                          setFoodAmountObj((prev) => ({
+                            ...prev,
+                            [foodKey]: Number(valueString),
+                          }))
+                        }
+                        size="sm"
+                        w="80px"
+                      >
                         <NumberInputField textAlign="center" />
                       </NumberInput>
                       <IconButton
