@@ -1,5 +1,27 @@
 # Diet Tracker PWA
-Built a Diet Tracker PWA for a simple way to track calories, protein, sodium, and sugar.
+TODO
+
+## Local Setup
+- Install Node.js 20.13.1 (see `.nvmrc`)
+- Clone the repository
+- Run `npm install` 
+- Run `npm run dev` to start development server
+- Open http://localhost:3000
+
+## Building this App with Cursor
+- Create a new Next.js project
+  ```bash
+  npx create-next-app@latest diet-tracker
+  ```
+- Install dependencies
+  ```bash
+  npm install @chakra-ui/react@2 @emotion/react @emotion/styled framer-motion react-icons
+  ```
+- Set up Chakra UI provider in `pages/_app.js`
+- Implement MVP
+  - Track Meal page
+  - Meal List page
+  - Graph page
 
 App Setup (works for any PWA)
 - open website at [diet-tracker-pwa.vercel.app](https://diet-tracker-pwa.vercel.app)
