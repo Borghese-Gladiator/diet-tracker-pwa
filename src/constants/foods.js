@@ -1,5 +1,8 @@
 /*
 LOGIC is to have a master list of foods with ALL information needed for display and nutrition
+
+These shared constants are used in multiple pages, so importing avoids code duplication and keeps builds smaller via tree-shaking
+This is preferable to getStaticProps() which serializes the constants server-side and then passes to the client as JSON.
 */
 
 const FOOD_MASTER_MAP = {
