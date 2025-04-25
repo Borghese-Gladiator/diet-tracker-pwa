@@ -13,7 +13,7 @@ const FOOD_MASTER_MAP = {
     sugar: 0.7,
     // metadata
     foodType: 'breakfast',
-    defaultStep: 1,
+    defaultStep: 0.5,
     unitType: 'unit',
     unitToGrams: 175
   },
@@ -33,48 +33,6 @@ const FOOD_MASTER_MAP = {
     unitToGrams: 175
   },
 
-  'bibigo_mini_wontons': {
-    // nutrition info
-    amount: 100,
-    calories: 220,
-    fat: 9,
-    cholesterol: 35,
-    sodium: 470,
-    sugar: 1,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'black_beans': {
-    // nutrition info
-    amount: 100,
-    calories: 132,
-    fat: 0.5,
-    cholesterol: 0,
-    sodium: 1,
-    sugar: 0.3,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'black_fungus': {
-    // nutrition info
-    amount: 100,
-    calories: 25,
-    fat: 0.1,
-    cholesterol: 0,
-    sodium: 5,
-    sugar: 0,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
   'wheat_bread': {
     // nutrition info
     amount: 100,
@@ -84,38 +42,11 @@ const FOOD_MASTER_MAP = {
     sodium: 450,
     sugar: 3.5,
     // metadata
-    foodType: 'breakfast',
+    foodType: 'snack',
     unitType: 'gram',
     defaultStep: 100,
   },
 
-  'brown_rice': {
-    // nutrition info
-    amount: 100,
-    calories: 111,
-    fat: 0.9,
-    cholesterol: 0,
-    sodium: 5,
-    sugar: 0.4,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'cali_b_chicken_bowl': {
-    // nutrition info
-    amount: 100,
-    calories: 185,
-    fat: 6,
-    cholesterol: 40,
-    sodium: 300,
-    sugar: 2,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
 
   'cara_cara_orange': {
     // nutrition info
@@ -146,20 +77,6 @@ const FOOD_MASTER_MAP = {
     defaultStep: 100,
   },
 
-  'chicken_breast_skinless': {
-    // nutrition info
-    amount: 100,
-    calories: 165,
-    fat: 3.6,
-    cholesterol: 85,
-    sodium: 74,
-    sugar: 0,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
   'chipotle_chicken_bowl': {
     // nutrition info
     amount: 100,
@@ -170,8 +87,9 @@ const FOOD_MASTER_MAP = {
     sugar: 1.5,
     // metadata
     foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
+    unitType: 'unit',
+    defaultStep: 0.5,
+    unitToGrams: 450
   },
 
   'clementines': {
@@ -189,34 +107,6 @@ const FOOD_MASTER_MAP = {
     unitToGrams: 175
   },
 
-  'corn': {
-    // nutrition info
-    amount: 100,
-    calories: 86,
-    fat: 1.2,
-    cholesterol: 0,
-    sodium: 15,
-    sugar: 6.3,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'cucumber': {
-    // nutrition info
-    amount: 100,
-    calories: 16,
-    fat: 0.1,
-    cholesterol: 0,
-    sodium: 2,
-    sugar: 1.7,
-    // metadata
-    foodType: 'fruit',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
   'edamame': {
     // nutrition info
     amount: 100,
@@ -230,35 +120,7 @@ const FOOD_MASTER_MAP = {
     unitType: 'gram',
     defaultStep: 100,
   },
-
-  'fish_cake': {
-    // nutrition info
-    amount: 100,
-    calories: 143,
-    fat: 7.5,
-    cholesterol: 40,
-    sodium: 400,
-    sugar: 2,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'fungus': {
-    // nutrition info
-    amount: 100,
-    calories: 25,
-    fat: 0.1,
-    cholesterol: 0,
-    sodium: 5,
-    sugar: 0,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
+  
   'grapes': {
     // nutrition info
     amount: 100,
@@ -268,12 +130,26 @@ const FOOD_MASTER_MAP = {
     sodium: 2,
     sugar: 15,
     // metadata
-    foodType: 'fruit',
+    foodType: 'breakfast',
     unitType: 'gram',
     defaultStep: 100,
   },
 
-  'grilled_onions_and_peppers': {
+  'blueberry': {
+    // nutrition info
+    amount: 100,
+    calories: 57,
+    fat: 0.3,
+    cholesterol: 0,
+    sodium: 1,
+    sugar: 10,
+    // metadata
+    foodType: 'breakfast',
+    unitType: 'gram',
+    defaultStep: 100,
+  },
+
+  'onions_and_peppers': {
     // nutrition info
     amount: 100,
     calories: 45,
@@ -302,7 +178,7 @@ const FOOD_MASTER_MAP = {
     unitToGrams: 175
   },
 
-  'leafy_green': {
+  'bok_choy': {
     // nutrition info
     amount: 100,
     calories: 20,
@@ -330,7 +206,7 @@ const FOOD_MASTER_MAP = {
     defaultStep: 100,
   },
 
-  'milk': {
+  'milk_cup': {
     // nutrition info
     amount: 100,
     calories: 42,
@@ -340,8 +216,9 @@ const FOOD_MASTER_MAP = {
     sugar: 4.7,
     // metadata
     foodType: 'breakfast',
-    unitType: 'gram',
-    defaultStep: 100,
+    unitType: 'unit',
+    defaultStep: 1,
+    unitToGrams: 175
   },
 
   'mushroom': {
@@ -372,20 +249,6 @@ const FOOD_MASTER_MAP = {
     defaultStep: 100,
   },
 
-  'oily_tofu': {
-    // nutrition info
-    amount: 100,
-    calories: 120,
-    fat: 8,
-    cholesterol: 0,
-    sodium: 12,
-    sugar: 0.6,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
   'pear': {
     // nutrition info
     amount: 100,
@@ -399,118 +262,6 @@ const FOOD_MASTER_MAP = {
     unitType: 'unit',
     defaultStep: 1,
     unitToGrams: 175
-  },
-
-  'pico_de_gallo': {
-    // nutrition info
-    amount: 100,
-    calories: 25,
-    fat: 0.2,
-    cholesterol: 0,
-    sodium: 120,
-    sugar: 2.5,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'rice_noodle': {
-    // nutrition info
-    amount: 100,
-    calories: 109,
-    fat: 0.2,
-    cholesterol: 0,
-    sodium: 12,
-    sugar: 0.1,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'salsa': {
-    // nutrition info
-    amount: 100,
-    calories: 30,
-    fat: 0.2,
-    cholesterol: 0,
-    sodium: 500,
-    sugar: 3,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'salsa_verde': {
-    // nutrition info
-    amount: 100,
-    calories: 32,
-    fat: 0.3,
-    cholesterol: 0,
-    sodium: 460,
-    sugar: 2,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'seaweed': {
-    // nutrition info
-    amount: 100,
-    calories: 45,
-    fat: 0.6,
-    cholesterol: 0,
-    sodium: 87,
-    sugar: 0.5,
-    // metadata
-    foodType: 'snack',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'shredded_cheese': {
-    // nutrition info
-    amount: 100,
-    calories: 402,
-    fat: 33,
-    cholesterol: 105,
-    sodium: 621,
-    sugar: 1.3,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'spaghetti': {
-    // nutrition info
-    amount: 100,
-    calories: 158,
-    fat: 0.9,
-    cholesterol: 0,
-    sodium: 1,
-    sugar: 0.6,
-    // metadata
-    foodType: 'lunch_or_dinner',
-    unitType: 'gram',
-    defaultStep: 100,
-  },
-
-  'sunday': {
-    // nutrition info
-    amount: 100,
-    calories: 0,
-    fat: 0,
-    cholesterol: 0,
-    sodium: 0,
-    sugar: 0,
-    // metadata
-    foodType: 'snack',
-    unitType: 'gram',
-    defaultStep: 100,
   },
 
   'tofu': {
@@ -527,18 +278,18 @@ const FOOD_MASTER_MAP = {
     defaultStep: 100,
   },
 
-  'tofu_extra_firm': {
+  'white_rice': {
     // nutrition info
     amount: 100,
-    calories: 144,
-    fat: 8,
+    calories: 130,
+    fat: 0.3,
     cholesterol: 0,
-    sodium: 10,
-    sugar: 0.5,
+    sodium: 1,
+    sugar: 0,
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 50,
   },
 
   'white_rice': {
@@ -568,6 +319,66 @@ const FOOD_MASTER_MAP = {
     unitType: 'gram',
     defaultStep: 100,
   }
+  
+  /*
+  ARCHIVED FOODS
+
+  'bibigo_mini_wontons': {
+    // nutrition info
+    amount: 100,
+    calories: 220,
+    fat: 9,
+    cholesterol: 35,
+    sodium: 470,
+    sugar: 1,
+    // metadata
+    foodType: 'lunch_or_dinner',
+    unitType: 'gram',
+    defaultStep: 100,
+  },
+
+  'black_fungus': {
+    // nutrition info
+    amount: 100,
+    calories: 25,
+    fat: 0.1,
+    cholesterol: 0,
+    sodium: 5,
+    sugar: 0,
+    // metadata
+    foodType: 'lunch_or_dinner',
+    unitType: 'gram',
+    defaultStep: 100,
+  },
+
+  'cali_b_chicken_bowl': {
+    // nutrition info
+    amount: 100,
+    calories: 185,
+    fat: 6,
+    cholesterol: 40,
+    sodium: 300,
+    sugar: 2,
+    // metadata
+    foodType: 'lunch_or_dinner',
+    unitType: 'gram',
+    defaultStep: 100,
+  },
+
+  'brown_rice': {
+    // nutrition info
+    amount: 100,
+    calories: 111,
+    fat: 0.9,
+    cholesterol: 0,
+    sodium: 5,
+    sugar: 0.4,
+    // metadata
+    foodType: ' _or_dinner',
+    unitType: 'gram',
+    defaultStep: 100,
+  },
+  */
 };
 
 export const FOOD_GROUP_MAP = Object.entries(FOOD_MASTER_MAP).reduce((acc, [foodKey, food]) => {
@@ -575,7 +386,7 @@ export const FOOD_GROUP_MAP = Object.entries(FOOD_MASTER_MAP).reduce((acc, [food
     key: foodKey,
     defaultStep: food['defaultStep'],
     unitType: food['unitType']
-  }];
+  }].sort((a, b) => a.key.localeCompare(b.key));
   return acc;
 }, {});
 
