@@ -15,3 +15,7 @@ export function mergeObj(obj1, obj2) {
 
   return result;
 }
+
+export function formatNumber(num) {
+  return Number(num).toFixed(2);
+}

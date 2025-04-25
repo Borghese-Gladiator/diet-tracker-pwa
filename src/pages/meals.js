@@ -27,13 +27,8 @@ import { MdDelete } from 'react-icons/md';
 import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
 import { useMealList } from '@/context/MealListContext';
 import { foodKeyToHumanReadableStr } from '@/constants/foods';
-import { formatTimestamp } from "@/utils";
+import { formatTimestamp, formatNumber } from "@/utils";
 
-
-
-const formatNumber = (num) => {
-  return Number(num).toFixed(2);
-};
 
 export default function Meals() {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -24,7 +24,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdAdd, MdDelete, MdRemove } from 'react-icons/md';
-import { FaCheck, FaUndo } from "react-icons/fa";
 
 import {
   FOOD_UNIT_TO_GRAMS_MAP,
@@ -34,7 +33,7 @@ import {
 } from '@/constants/foods';
 import { useMealList } from '@/context/MealListContext';
 import useFoodUnitIncrementMap from '@/hooks/useFoodUnitIncrementMap';
-import { mergeObj } from '@/utils';
+import { mergeObj, formatNumber } from '@/utils';
 
 
 export default function Home() {
