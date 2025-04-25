@@ -186,7 +186,7 @@ export default function Home() {
                                 }))
                               }
                               precision={2}
-                              size="sm"
+                              size="lg"
                               w="80px"
                             >
                               <NumberInputField textAlign="center" />
