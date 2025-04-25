@@ -44,9 +44,22 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'snack',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
+  'cereal': {
+    // nutrition info
+    amount: 100,
+    calories: 100,
+    fat: 0.5,
+    cholesterol: 0, 
+    sodium: 100,
+    sugar: 10,
+    // metadata
+    foodType: 'breakfast',
+    unitType: 'gram',
+    defaultStep: 20,
+  },
 
   'cara_cara_orange': {
     // nutrition info
@@ -74,7 +87,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   // https://www.chipotle.com/nutrition-calculator/burrito-bowl
@@ -108,7 +121,7 @@ const FOOD_MASTER_MAP = {
     foodType: 'lunch_or_dinner',
     unitType: 'unit',
     defaultStep: 0.5,
-    unitToGrams: 450
+    unitToGrams: 1  // 1 burrito bowl - nutrition fact assumes 1 burrito bowl instead of 100 grams
   },
 
   'clementines': {
@@ -137,7 +150,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'snack',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
   
   'grapes': {
@@ -151,7 +164,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'breakfast',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'blueberry': {
@@ -165,7 +178,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'breakfast',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'onions_and_peppers': {
@@ -179,7 +192,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'kirkland_chewy_protein_bar': {
@@ -208,7 +221,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'lettuce': {
@@ -222,7 +235,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'milk_cup': {
@@ -251,7 +264,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'oatmeal': {
@@ -265,7 +278,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'breakfast',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'pear': {
@@ -294,7 +307,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'white_rice': {
@@ -322,7 +335,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   '火鍋米粉': { // Hotpot rice noodles
@@ -336,7 +349,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   }
   
   /*
@@ -353,7 +366,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'black_fungus': {
@@ -367,7 +380,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'cali_b_chicken_bowl': {
@@ -381,7 +394,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
 
   'brown_rice': {
@@ -395,7 +408,7 @@ const FOOD_MASTER_MAP = {
     // metadata
     foodType: ' _or_dinner',
     unitType: 'gram',
-    defaultStep: 100,
+    defaultStep: 20,
   },
   */
 };
