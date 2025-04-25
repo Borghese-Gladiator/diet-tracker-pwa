@@ -22,6 +22,7 @@ import {
   Button,
   VStack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { MdDelete } from 'react-icons/md';
 import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
@@ -31,6 +32,8 @@ import { formatTimestamp, formatNumber } from "@/utils";
 
 
 export default function Meals() {
+  const toast = useToast();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
@@ -40,6 +43,14 @@ export default function Meals() {
   const { mealList, dispatchMealList, } = useMealList();
   const handleDuplicateClick = (id) => {
     dispatchMealList({ type: 'duplicate', id });
+
+    toast({
+      title: 'Duplicated',
+      description: 'Meal duplicated successfully',
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const [mealIdToDelete, setMealIdToDelete] = useState(null);
@@ -61,7 +72,7 @@ export default function Meals() {
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
     const todayMeals = mealList.filter(meal => {
-      const mealDate = typeof meal.timestamp === 'string' 
+      const mealDate = typeof meal.timestamp === 'string'
         ? meal.timestamp.split('T')[0]
         : meal.timestamp.toISOString().split('T')[0];
       return mealDate === today;
@@ -123,53 +134,58 @@ export default function Meals() {
           {mealList.length === 0 ? (
             <Text>No meals recorded yet.</Text>
           ) : (
-            <TableContainer>
-              <Table variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th>Time</Th>
-                    <Th>Foods</Th>
-                    <Th isNumeric>Calories</Th>
-                    <Th isNumeric>Fat (g)</Th>
-                    <Th isNumeric>Cholesterol (mg)</Th>
-                    <Th isNumeric>Sodium (mg)</Th>
-                    <Th isNumeric>Sugar (g)</Th>
-                    <Th>Actions</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {mealList.map((meal, index) => (
-                    <Tr key={index}>
-                      <Td style={{ whiteSpace: "nowrap" }}>{formatTimestamp(meal.timestamp)}</Td>
-                      <Td>{Object.keys(meal.foodAmountObj).map((foodKey) => foodKeyToHumanReadableStr(foodKey)).join(', ')}</Td>
-                      <Td isNumeric>{formatNumber(meal.calories)}</Td>
-                      <Td isNumeric>{formatNumber(meal.fat)}</Td>
-                      <Td isNumeric>{formatNumber(meal.cholesterol)}</Td>
-                      <Td isNumeric>{formatNumber(meal.sodium)}</Td>
-                      <Td isNumeric>{formatNumber(meal.sugar)}</Td>
-                      <Td>
-                        <Box display="flex">
-                          <IconButton
-                            icon={<MdDelete />}
-                            size="sm"
-                            colorScheme="red"
-                            onClick={() => handleDeleteClick(meal.id)}
-                          />
-                          <IconButton
-                            icon={<HiOutlineDocumentDuplicate />}
-                            size="sm"
-                            colorScheme="blue"
-                            onClick={() => handleDuplicateClick(meal.id)}
-                          />
-                        </Box>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
+            <VStack spacing={4} align="stretch">
+              {mealList.map((meal, index) => (
+                <Box
+                  key={index}
+                  p={4}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  boxShadow="sm"
+                  bg="white"
+                >
+                  <Text fontSize="sm" color="gray.500" mb={2}>
+                    {formatTimestamp(meal.timestamp)}
+                  </Text>
+                  <Text fontWeight="bold" mb={1}>
+                    Foods:
+                  </Text>
+                  <Text mb={2}>
+                    {Object.keys(meal.foodAmountObj)
+                      .map(foodKeyToHumanReadableStr)
+                      .join(', ')}
+                  </Text>
+
+                  <Box display="flex" flexWrap="wrap" gap={4} fontSize="sm" mb={3}>
+                    <Text>Calories: {formatNumber(meal.calories)}</Text>
+                    <Text>Fat: {formatNumber(meal.fat)}g</Text>
+                    <Text>Cholesterol: {formatNumber(meal.cholesterol)}mg</Text>
+                    <Text>Sodium: {formatNumber(meal.sodium)}mg</Text>
+                    <Text>Sugar: {formatNumber(meal.sugar)}g</Text>
+                  </Box>
+
+                  <Box display="flex" gap={2}>
+                    <IconButton
+                      icon={<MdDelete />}
+                      size="sm"
+                      colorScheme="red"
+                      aria-label="Delete"
+                      onClick={() => handleDeleteClick(meal.id)}
+                    />
+                    <IconButton
+                      icon={<HiOutlineDocumentDuplicate />}
+                      size="sm"
+                      colorScheme="blue"
+                      aria-label="Duplicate"
+                      onClick={() => handleDuplicateClick(meal.id)}
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </VStack>
           )}
         </Box>
+
 
         <AlertDialog
           isOpen={isOpen}
