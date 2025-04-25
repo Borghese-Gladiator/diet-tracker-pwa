@@ -12,6 +12,7 @@ import {
   Th,
   Td,
   IconButton,
+  SimpleGrid,
   useDisclosure,
   AlertDialog,
   AlertDialogBody,
@@ -147,22 +148,19 @@ export default function Meals() {
                   <Text fontSize="sm" color="gray.500" mb={2}>
                     {formatTimestamp(meal.timestamp)}
                   </Text>
-                  <Text fontWeight="bold" mb={1}>
-                    Foods:
-                  </Text>
-                  <Text mb={2}>
+                  <Text fontWeight="bold" mb={2}>
                     {Object.keys(meal.foodAmountObj)
                       .map(foodKeyToHumanReadableStr)
                       .join(', ')}
                   </Text>
 
-                  <Box display="flex" flexWrap="wrap" gap={4} fontSize="sm" mb={3}>
-                    <Text>Calories: {formatNumber(meal.calories)}</Text>
-                    <Text>Fat: {formatNumber(meal.fat)}g</Text>
-                    <Text>Cholesterol: {formatNumber(meal.cholesterol)}mg</Text>
-                    <Text>Sodium: {formatNumber(meal.sodium)}mg</Text>
-                    <Text>Sugar: {formatNumber(meal.sugar)}g</Text>
-                  </Box>
+                  <SimpleGrid columns={[2, null, 3]} spacing={0} fontSize="sm" mb={2} mt={2}>
+                    <Text><strong>Calories:</strong> {formatNumber(meal.calories)}</Text>
+                    <Text><strong>Fat:</strong> {formatNumber(meal.fat)}g</Text>
+                    <Text><strong>Cholesterol:</strong> {formatNumber(meal.cholesterol)}mg</Text>
+                    <Text><strong>Sodium:</strong> {formatNumber(meal.sodium)}mg</Text>
+                    <Text><strong>Sugar:</strong> {formatNumber(meal.sugar)}g</Text>
+                  </SimpleGrid>
 
                   <Box display="flex" gap={2}>
                     <IconButton
