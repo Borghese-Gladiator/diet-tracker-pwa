@@ -77,14 +77,33 @@ const FOOD_MASTER_MAP = {
     defaultStep: 100,
   },
 
+  // https://www.chipotle.com/nutrition-calculator/burrito-bowl
+  // 1 burrito bowl
+  // calories 760
+  // fat 24g
+  // protein 54g
+  // carbs 85g
+  // fiber 15g
+  // sugar 9g
+  // sodium 1930mg
+
+  // chicken
+  // brown rice
+  // black beans
+  // fresh tomato salsa
+  // roasted chili corn salsa
+  // fajita veggies
+  // cheese
+  // romaine lettuce
+
   'chipotle_chicken_bowl': {
     // nutrition info
-    amount: 100,
-    calories: 210,
-    fat: 8,
-    cholesterol: 50,
-    sodium: 400,
-    sugar: 1.5,
+    amount: 1,
+    calories: 760,
+    fat: 24,
+    cholesterol: 0,
+    sodium: 1930,
+    sugar: 9,
     // metadata
     foodType: 'lunch_or_dinner',
     unitType: 'unit',
