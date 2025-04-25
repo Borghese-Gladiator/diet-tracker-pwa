@@ -1,5 +1,9 @@
 # Diet Tracker PWA
-TODO
+No-fuss diet tracking with big buttons, big font, and a big graph. Add your meals from the preset list of foods to get a rough estimate of cholesterol, calories, fat, sodium, and sugar.
+
+## Features
+Next.js Pages Router PWA with Chakra UI
+- PWA - mobile support + offline availability 
 
 ## Local Setup
 - Install Node.js 20.13.1 (see `.nvmrc`)
