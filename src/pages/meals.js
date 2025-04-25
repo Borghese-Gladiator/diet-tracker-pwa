@@ -162,7 +162,7 @@ export default function Meals() {
                     <Text><strong>Sugar:</strong> {formatNumber(meal.sugar)}g</Text>
                   </SimpleGrid>
 
-                  <Box display="flex" gap={2}>
+                  <Box display="flex" gap={2} justifyContent="flex-end">
                     <IconButton
                       icon={<MdDelete />}
                       size="sm"
