@@ -50,8 +50,12 @@ export default function Home() {
   const { dispatchMealList } = useMealList();
   const [foodUnitIncrementMap, setFoodUnitIncrementMap] = useFoodUnitIncrementMap();
 
-  // foodAmountObj - foodKey to amount of food in grams
-  const [foodAmountObj, setFoodAmountObj] = useState({});
+  // foodAmountObj - foodKey to amount of food (str) in grams
+  const [foodAmountObjStr, setFoodAmountObjStr] = useState({});
+  const foodAmountObj = Object.entries(foodAmountObjStr).reduce((acc, [key, val]) => {
+    acc[key] = Number(val);
+    return acc;
+  }, {});
   const isFoodAmountObjEmpty = Object.keys(foodAmountObj).length === 0
   const foodAmountTotal = useMemo(() => {
     return Object.entries(foodAmountObj).reduce((acc, [foodKey, foodAmount]) => {
@@ -68,17 +72,15 @@ export default function Home() {
 
     // foodKey is unique food name string
     // amount is grams
-    setFoodAmountObj((prevState) => {
-      const currentAmount = prevState[foodKey] ?? 0;
-      const newAmount = Math.max(currentAmount + amount, 0);
-      return {
-        ...prevState,
-        [foodKey]: newAmount
-      };
+    const currentAmount = foodAmountObj[foodKey] ?? 0;
+    const newAmount = Math.max(currentAmount + amount, 0);  
+    setFoodAmountObjStr({
+      ...foodAmountObjStr,
+      [foodKey]: newAmount
     });
   };
   const handleRemoveFood = (foodKey) => {
-    setFoodAmountObj((foodAmountObj) => {
+    setFoodAmountObjStr((foodAmountObj) => {
       // fancy syntax to remove "[foodKey]" from foodAmountObj
       const { [foodKey]: _, ...rest } = foodAmountObj;
       return rest;
@@ -86,7 +88,7 @@ export default function Home() {
   };
 
   function reset() {
-    setFoodAmountObj({});
+    setFoodAmountObjStr({});
   }
   function saveMeal() {
     reset();
@@ -138,6 +140,8 @@ export default function Home() {
     });
   }
 
+  const [amount, setAmount] = useState(0);
+
   //=====================
   //  MAIN
   //=====================
@@ -177,11 +181,12 @@ export default function Home() {
                             <NumberInput
                               value={amount}
                               onChange={(valueString) =>
-                                setFoodAmountObj((prev) => ({
+                                setFoodAmountObjStr((prev) => ({
                                   ...prev,
-                                  [foodKey]: Number(valueString),
+                                  [foodKey]: valueString,
                                 }))
                               }
+                              precision={2}
                               size="sm"
                               w="80px"
                             >
@@ -262,6 +267,7 @@ export default function Home() {
           </Button>
         </Box>
       </VStack>
+      
     </Container>
   );
 }
