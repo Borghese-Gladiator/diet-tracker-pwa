@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import {
   Box,
@@ -15,6 +15,7 @@ import {
   Table,
   TableContainer,
   Tbody,
+  Text,
   Td,
   Th,
   Thead,
@@ -23,10 +24,12 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdAdd, MdDelete, MdRemove } from 'react-icons/md';
+import { FaCheck, FaUndo } from "react-icons/fa";
 
 import {
-  FOOD_TO_FOOD_UNIT_MAP,
+  FOOD_UNIT_TO_GRAMS_MAP,
   FOOD_TO_NUTRITION_MAP,
+  FOOD_GROUP_MAP,
   foodKeyToHumanReadableStr,
 } from '@/constants/foods';
 import { useMealList } from '@/context/MealListContext';
@@ -50,6 +53,14 @@ export default function Home() {
   // foodAmountObj - foodKey to amount of food in grams
   const [foodAmountObj, setFoodAmountObj] = useState({});
   const isFoodAmountObjEmpty = Object.keys(foodAmountObj).length === 0
+  const foodAmountTotal = useMemo(() => {
+    return Object.entries(foodAmountObj).reduce((acc, [foodKey, foodAmount]) => {
+      if (foodKey in FOOD_UNIT_TO_GRAMS_MAP) {
+        return acc + (foodAmount * FOOD_UNIT_TO_GRAMS_MAP[foodKey]);
+      }
+      return acc + foodAmount;
+    }, 0);
+  }, [foodAmountObj]);
   const handleFoodAmountChange = (foodKey, amount) => {
     // CSS background
     setHighlighted({ [foodKey]: amount > 0 ? 'green.100' : 'red.100' });
@@ -97,9 +108,18 @@ export default function Home() {
         //    X = 300 * 9 / 50
         // GENERALIZE
         //    X = foodAmount * nutritionPerUnitAmount / unitAmount
-        const currFoodNutrition = Object.entries(FOOD_TO_NUTRITION_MAP[foodKey]).reduce(
+        
+        // If food is a unit (eg: banana), convert to grams
+        if (foodKey in FOOD_UNIT_TO_GRAMS_MAP) {
+          const unitToGrams = FOOD_UNIT_TO_GRAMS_MAP[foodKey];
+          foodAmount = foodAmount * unitToGrams;
+        }
+
+        // calculate nutrition for this food
+        const { amount, ...nutrition } = FOOD_TO_NUTRITION_MAP[foodKey];  // fancy syntax to remove "amount" from nutrition
+        const currFoodNutrition = Object.entries(nutrition).reduce(
           (acc, [nutritionKey, nutritionPerUnitAmount]) => {
-            acc[nutritionKey] = foodAmount * nutritionPerUnitAmount / FOOD_TO_FOOD_UNIT_MAP[foodKey]
+            acc[nutritionKey] = foodAmount * nutritionPerUnitAmount / amount
             return acc;
           }, {}
         );
@@ -124,49 +144,64 @@ export default function Home() {
   return (
     <Container maxW="container.md" py={8}>
       <VStack spacing={8} align="stretch">
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-          {Object.keys(FOOD_TO_NUTRITION_MAP).map((foodKey) => {
-            const name = foodKeyToHumanReadableStr(foodKey);
-            return (
-              <Card
-                key={foodKey}
-                bg={highlighted[foodKey] || 'white'}
-                transition="background 0.2s"
-              >
-                <CardBody>
-                  <HStack justify="space-between">
-                    <Heading size="md">{name}</Heading>
-                    <HStack>
-                      <IconButton
-                        icon={<MdRemove />}
-                        size="sm"
-                        onClick={(e) => { handleFoodAmountChange(foodKey, -foodUnitIncrementMap[foodKey]); }}
-                      />
-                      <NumberInput
-                        value={foodAmountObj[foodKey] ?? 0}
-                        onChange={(valueString) =>
-                          setFoodAmountObj((prev) => ({
-                            ...prev,
-                            [foodKey]: Number(valueString),
-                          }))
-                        }
-                        size="sm"
-                        w="80px"
-                      >
-                        <NumberInputField textAlign="center" />
-                      </NumberInput>
-                      <IconButton
-                        icon={<MdAdd />}
-                        size="sm"
-                        onClick={(e) => { handleFoodAmountChange(foodKey, foodUnitIncrementMap[foodKey]); }}
-                      />
-                    </HStack>
-                  </HStack>
-                </CardBody>
-              </Card>
-            );
-          })}
-        </SimpleGrid>
+        <VStack spacing={4} align="stretch">
+          {Object.entries(FOOD_GROUP_MAP).map(([groupName, foods]) => (
+            <Box key={groupName}>
+              <Heading size="lg" mb={4}>{foodKeyToHumanReadableStr(groupName)}</Heading>
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                {foods.map(({ key: foodKey, unitType, defaultStep }) => {
+                  const name = foodKeyToHumanReadableStr(foodKey);
+                  const amount = foodAmountObj[foodKey] ?? 0;
+                  const displayAmount = unitType === 'unit' 
+                    ? `${amount} ${name}${amount !== 1 ? 's' : ''}`
+                    : `${amount} grams`;
+
+                  return (
+                    <Card
+                      key={foodKey}
+                      bg={highlighted[foodKey] || 'white'}
+                      transition="background 0.2s"
+                    >
+                      <CardBody>
+                        <HStack justify="space-between">
+                          <VStack align="start" spacing={1}>
+                            <Heading size="md">{name}</Heading>
+                            <Text fontSize="sm" color="gray.600">{displayAmount}</Text>
+                          </VStack>
+                          <HStack>
+                            <IconButton
+                              icon={<MdRemove />}
+                              size="sm"
+                              onClick={(e) => { handleFoodAmountChange(foodKey, -defaultStep); }}
+                            />
+                            <NumberInput
+                              value={amount}
+                              onChange={(valueString) =>
+                                setFoodAmountObj((prev) => ({
+                                  ...prev,
+                                  [foodKey]: Number(valueString),
+                                }))
+                              }
+                              size="sm"
+                              w="80px"
+                            >
+                              <NumberInputField textAlign="center" />
+                            </NumberInput>
+                            <IconButton
+                              icon={<MdAdd />}
+                              size="sm"
+                              onClick={(e) => { handleFoodAmountChange(foodKey, defaultStep); }}
+                            />
+                          </HStack>
+                        </HStack>
+                      </CardBody>
+                    </Card>
+                  );
+                })}
+              </SimpleGrid>
+            </Box>
+          ))}
+        </VStack>
 
         <Box>
           <Heading size="lg" mb={4}>Current Meal</Heading>
@@ -175,16 +210,19 @@ export default function Home() {
               <Thead>
                 <Tr>
                   <Th>Food</Th>
-                  <Th>Amount (g)</Th>
+                  <Th>Amount</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {Object.entries(foodAmountObj).map(([foodKey, foodAmount], idx) => {
                   const name = foodKeyToHumanReadableStr(foodKey);
+                  const displayAmount = foodKey in FOOD_UNIT_TO_GRAMS_MAP
+                    ? `${foodAmount} ${name}${foodAmount !== 1 ? 's' : ''}`
+                    : `${foodAmount} g`;
                   return (
                     <Tr key={`${foodKey}-${idx}`}>
                       <Td>{name}</Td>
-                      <Td isNumeric>{foodAmount} (g)</Td>
+                      <Td isNumeric>{displayAmount}</Td>
                       <Td>
                         <IconButton
                           icon={<MdDelete />}
@@ -198,7 +236,7 @@ export default function Home() {
                 })}
                 <Tr fontWeight="bold">
                   <Td>Total</Td>
-                  <Td isNumeric>{Object.values(foodAmountObj).reduce((acc, foodAmount) => acc + foodAmount, 0)}</Td>
+                  <Td isNumeric>{foodAmountTotal} g</Td>
                   <Td />
                 </Tr>
               </Tbody>
